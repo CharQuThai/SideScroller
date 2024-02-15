@@ -527,9 +527,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8ec8d8c490d38488a5c9e21fc46013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  background: {fileID: 0}
-  spawnManager: {fileID: 0}
+  playerController: {fileID: 1212248726}
+  background: {fileID: 835818923}
+  spawnManager: {fileID: 1610018180}
 --- !u!4 &1065930292
 Transform:
   m_ObjectHideFlags: 0
