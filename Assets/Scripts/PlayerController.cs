@@ -5,26 +5,36 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Animator anim;
+    [SerializeField] private ParticleSystem explosionParticle;
+    [SerializeField] private ParticleSystem dirtParticle;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip crashSound;
 
     [SerializeField] Rigidbody rb;
     [SerializeField] GameManger gameManager;
     private float jumpForce = 12f;
 
-    private bool grounded = true;
+    private AudioSource audioSrc;
 
+    private bool grounded = true;
+    private bool dead = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSrc = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && grounded)
+        if (Input.GetButtonDown("Jump") && grounded && !dead)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             grounded = false;
+            anim.SetTrigger("Jump_trig");
+            dirtParticle.Stop();
+            //audioSrc.PlayOneShot(jumpSound);
         }
     }
 
@@ -33,9 +43,16 @@ public class PlayerController : MonoBehaviour
         if(collision.gameObject.tag == "Ground")
         {
             grounded = true;
+            dirtParticle.Play();
         }
         else if(collision.gameObject.tag == "Obstacle")
         {
+            explosionParticle.Play();
+            anim.SetBool("Death_b", true);
+            anim.SetInteger("DeathType_int", 1);
+            dead = true;
+            dirtParticle.Stop();
+            //audioSrc.PlayOneShot(crashSound);
             gameManager.EndGame();
         }
     }
