@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         audioSrc = GetComponent<AudioSource>();
+        if(audioSrc == null )
+        {
+            Debug.LogWarning("missing audio source on player");
+        }
     }
 
     // Update is called once per frame
@@ -34,7 +38,7 @@ public class PlayerController : MonoBehaviour
             grounded = false;
             anim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
-            //audioSrc.PlayOneShot(jumpSound);
+            audioSrc.PlayOneShot(jumpSound);
         }
     }
 
@@ -52,8 +56,21 @@ public class PlayerController : MonoBehaviour
             anim.SetInteger("DeathType_int", 1);
             dead = true;
             dirtParticle.Stop();
-            //audioSrc.PlayOneShot(crashSound);
+            audioSrc.PlayOneShot(crashSound);
             gameManager.EndGame();
+
         }
+    }
+
+    public void Reset()
+    {
+
+        dead = false;
+        anim.SetBool("Death_b", false);
+
+        int deathLayerIndex = anim.GetLayerIndex("Death");
+        anim.Play("Death.Alive", deathLayerIndex);
+        dirtParticle.Play();
+
     }
 }

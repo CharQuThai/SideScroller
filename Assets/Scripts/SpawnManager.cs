@@ -42,4 +42,19 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
+
+    public void DestroyObstacles()
+    {
+
+        for (int i = 0; i < obstacles.Count; i++)
+        {
+            //Destroy(obstacles[i]);
+            
+            if (obstacles[i] != null)
+            {
+                obstacles[i].enabled = false;
+                Destroy(obstacles[i].gameObject);
+            }
+        }
+    }
 }

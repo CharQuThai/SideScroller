@@ -14,5 +14,21 @@ public class GameManger : MonoBehaviour
         Debug.Log("Game over");
         background.enabled = false;
         spawnManager.enabled = false;
+        StartCoroutine(ResetAfterDelay(3));
+        
+    }
+
+    IEnumerator ResetAfterDelay(int delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Reset();
+    }
+
+    public void Reset()
+    {
+        spawnManager.DestroyObstacles();
+        background.enabled = true;
+        spawnManager.enabled = true;
+        playerController.Reset();
     }
 }
